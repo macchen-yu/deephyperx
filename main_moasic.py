@@ -43,6 +43,7 @@ from utils import (
     show_results,
     compute_imf_weights,
     get_device,
+    generate_checkerboard_pattern
 )
 from datasets import get_dataset, HyperX, open_file, DATASETS_CONFIG
 from models import get_model, train, test, save_model
@@ -303,7 +304,10 @@ for run in range(N_RUNS):
         test_gt = open_file(TEST_GT)
     else:
         # Sample random training spectra
-        train_gt, test_gt = sample_gt(gt, SAMPLE_PERCENTAGE, mode=SAMPLING_MODE)
+        test_gt = gt
+        #train_gt, test_gt = sample_gt(gt, SAMPLE_PERCENTAGE, mode=SAMPLING_MODE)#######################
+        train_gt = generate_checkerboard_pattern(gt, PATCH_SIZE)
+
     print(
         "{} samples selected (over {})".format(
             np.count_nonzero(train_gt), np.count_nonzero(gt)

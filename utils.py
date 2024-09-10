@@ -39,6 +39,9 @@ def open_file(dataset):
     elif ext == '.hdr':
         img = spectral.open_image(dataset)
         return img.load()
+    elif ext == '.npy':
+        img = np.load(dataset)
+        return img
     else:
         raise ValueError("Unknown file format: {}".format(ext))
 
@@ -503,6 +506,47 @@ def sample_gt(gt, train_size, mode='random'):
         raise ValueError("{} sampling is not implemented yet.".format(mode))
     return train_gt, test_gt
 
+def generate_checkerboard_pattern(gt_matrix, PATCH_SIZE):
+    """
+    在指定矩陣的指定區域內應用棋盤格圖案。
+
+    :param gt_matrix: 包含子陣列位置和大小的矩陣
+    :param PATCH_SIZE: 棋盤格的步長
+    :return: 應用棋盤格圖案後的矩陣
+    """
+    gt_mask = np.zeros_like(gt_matrix)
+    subarray_positions = []
+    subarray_sizes = []
+    unique_values = np.unique(gt_matrix)
+    unique_values = unique_values[unique_values != 0]  # 排除0
+
+    for value in unique_values:
+        positions = np.argwhere(gt_matrix == value)
+        top_left = positions.min(axis=0)
+        bottom_right = positions.max(axis=0) + 1
+        size = (bottom_right - top_left).tolist()
+        subarray_positions.append(tuple(top_left))
+        subarray_sizes.append(tuple(size))
+
+    # 將子陣列位置設置值為1~len(subarray_positions)
+    for index, ((x, y), size) in enumerate(zip(subarray_positions, subarray_sizes)):
+        value = index + 1
+        gt_mask[x:x+size[0], y:y+size[1]] = value
+
+    # 應用棋盤格圖案
+    for top_left, size in zip(subarray_positions, subarray_sizes):
+        x, y = top_left
+        value = gt_mask[x, y]
+        mask = np.ones(size) * value
+
+        for i in range(0, size[0], PATCH_SIZE):
+            for j in range(0, size[1], PATCH_SIZE):
+                if (i // PATCH_SIZE) % 2 == (j // PATCH_SIZE) % 2:
+                    mask[i:i+PATCH_SIZE, j:j+PATCH_SIZE] = 0
+
+        gt_mask[x:x+size[0], y:y+size[1]] = mask
+
+    return gt_mask
 
 def compute_imf_weights(ground_truth, n_classes=None, ignored_classes=[]):
     """ Compute inverse median frequency weights for class balancing.

@@ -295,10 +295,11 @@ for run in range(N_RUNS):
         train_gt = open_file(TRAIN_GT)
         test_gt = open_file(TEST_GT)
     elif TRAIN_GT is not None:
-        train_gt = open_file(TRAIN_GT)
+        # train_gt = open_file(TRAIN_GT)
+        train_gt = np.load(TRAIN_GT)
         test_gt = np.copy(gt)
         w, h = test_gt.shape
-        test_gt[(train_gt > 0)[:w, :h]] = 0
+        # test_gt[(train_gt > 0)[:w, :h]] = 0
     elif TEST_GT is not None:
         test_gt = open_file(TEST_GT)
     else:
@@ -423,15 +424,16 @@ for run in range(N_RUNS):
 
     run_results = metrics(
         prediction,
-        test_gt,
+        # test_gt,
+        gt,
         ignored_labels=hyperparams["ignored_labels"],
         n_classes=N_CLASSES,
     )
 
-    mask = np.zeros(gt.shape, dtype="bool")
-    for l in IGNORED_LABELS:
-        mask[gt == l] = True
-    prediction[mask] = 0
+    # mask = np.zeros(gt.shape, dtype="bool")
+    # for l in IGNORED_LABELS:
+    #     mask[gt == l] = True
+    # prediction[mask] = 0
 
     color_prediction = convert_to_color(prediction)
     display_predictions(

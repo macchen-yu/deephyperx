@@ -1,0 +1,5 @@
+python inference.py --model hamida --cuda 0 --image patch_fx17/3.npy --checkpoint checkpoints/hamida_et_al/fx17_Fianl/2024_07_24_02_08_30_epoch20_1.00.pth --patch_size  7  --n_classes 8
+python inference.py --model hamida --cuda 0 --image patch_fx17/4.npy --checkpoint checkpoints/hamida_et_al/fx17_Fianl/2024_07_24_02_08_30_epoch20_1.00.pth --patch_size  7  --n_classes 8
+python inference.py --model hamida --cuda 0 --image patch_fx17/5.npy --checkpoint checkpoints/hamida_et_al/fx17_Fianl/2024_07_24_02_08_30_epoch20_1.00.pth --patch_size  7  --n_classes 8
+python inference.py --model hamida --cuda 0 --image patch_fx17/6.npy --checkpoint checkpoints/hamida_et_al/fx17_Fianl/2024_07_24_02_08_30_epoch20_1.00.pth --patch_size  7  --n_classes 8
+python inference.py --model hamida --cuda 0 --image patch_fx17/7.npy --checkpoint checkpoints/hamida_et_al/fx17_Fianl/2024_07_24_02_08_30_epoch20_1.00.pth --patch_size  7  --n_classes 8

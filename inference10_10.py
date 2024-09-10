@@ -85,6 +85,13 @@ group_test.add_argument(
     nargs="?",
     help="When using a trained algorithm, specified  the number of classes of this algorithm",
 )
+group_test.add_argument(
+    "--folder_number",
+    type=int,
+    default=None,
+    nargs="?",
+    help="which folder you want to infrence",
+)
 # Training options
 group_train = parser.add_argument_group("Model")
 group_train.add_argument(
@@ -108,6 +115,7 @@ N_CLASSES = args.n_classes
 INFERENCE = args.image
 TEST_STRIDE = args.test_stride
 CHECKPOINT = args.checkpoint
+FLODER_NUMBER = args.folder_number
 
 img_filename = os.path.basename(INFERENCE)
 basename = MODEL + img_filename
@@ -182,5 +190,26 @@ plt.title(f'{img_filename}  Prediction Results')
 plt.xlabel('X-axis')
 plt.ylabel('Y-axis')
 
-# Show the plot
-plt.show()
+# # Show the plot
+# plt.show()
+
+# Define the output path
+output_folder = f'./VAL_patch10_10/{FLODER_NUMBER}_result/'
+output_path = os.path.join(output_folder, f'{img_filename}_prediction_results.png')
+
+# 检查并创建目录
+try:
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+except Exception as e:
+    print(f"Error: Failed to create directory '{output_folder}'. {e}")
+    raise  # 重新抛出异常，确保程序在出错时停止
+
+# Save the plot as an image file
+plt.savefig(output_path)  # 添加保存图像的命令
+
+# Close the plot to free up memory
+plt.close()
+
+# 输出保存的文件路径
+print(f'Image saved to {output_path}')

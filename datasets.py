@@ -69,6 +69,62 @@ DATASETS_CONFIG = {
         "img": "Botswana.mat",
         "gt": "Botswana_gt.mat",
     },
+    "fx17_Fabric": {
+            "urls": [
+                # "http://www.ehu.es/ccwintco/uploads/7/72/Botswana.mat",
+                # "http://www.ehu.es/ccwintco/uploads/5/58/Botswana_gt.mat",
+            ],
+            "img": "fx17_Fabric.mat",
+            "gt": "fx17_Fabric_gt.mat",
+        },
+    "leather": {
+                "urls": [
+                    # "http://www.ehu.es/ccwintco/uploads/7/72/Botswana.mat",
+                    # "http://www.ehu.es/ccwintco/uploads/5/58/Botswana_gt.mat",
+                ],
+                "img": "leather.mat",
+                "gt": "leather_gt.mat",
+            },
+    "leather2": {
+        "urls": [
+            # "http://www.ehu.es/ccwintco/uploads/7/72/Botswana.mat",
+            # "http://www.ehu.es/ccwintco/uploads/5/58/Botswana_gt.mat",
+        ],
+        "img": "leather2.mat",
+        "gt": "leather_gt2.mat",
+    },
+    "leather2": {
+        "urls": [
+            # "http://www.ehu.es/ccwintco/uploads/7/72/Botswana.mat",
+            # "http://www.ehu.es/ccwintco/uploads/5/58/Botswana_gt.mat",
+        ],
+        "img": "leather2.mat",
+        "gt": "leather_gt2.mat",
+    },
+    "leatherbnad50_150": {
+            "urls": [
+                # "http://www.ehu.es/ccwintco/uploads/7/72/Botswana.mat",
+                # "http://www.ehu.es/ccwintco/uploads/5/58/Botswana_gt.mat",
+            ],
+            "img": "leatherbnad50_150.mat",
+            "gt": "leatherbnad50_150_gt.mat",
+        },
+    "fx10_Fianl": {
+        "urls": [
+            # "http://www.ehu.es/ccwintco/uploads/7/72/Botswana.mat",
+            # "http://www.ehu.es/ccwintco/uploads/5/58/Botswana_gt.mat",
+        ],
+        "img": "fx10_Fianl.mat",
+        "gt": "fx10_Fianl_gt.mat",
+    },
+    "fx17_Fianl": {
+        "urls": [
+            # "http://www.ehu.es/ccwintco/uploads/7/72/Botswana.mat",
+            # "http://www.ehu.es/ccwintco/uploads/5/58/Botswana_gt.mat",
+        ],
+        "img": "fx17_Fianl.mat",
+        "gt": "fx17_Fianl_gt.mat",
+    },
 }
 
 try:
@@ -292,6 +348,105 @@ def get_dataset(dataset_name, target_folder="./", datasets=DATASETS_CONFIG):
         ]
 
         ignored_labels = [0]
+    elif dataset_name == "fx17_Fabric":
+        # Load the image
+        img = open_file(folder + "fx17_Fabric.mat")["fx17_Fabric"]
+
+        rgb_bands = (192,134, 76)
+
+        gt = open_file(folder + "fx17_Fabric_gt.mat")["fx17_Fabric_gt"]
+        label_values = [
+            "Undefined",
+            "TC",
+            "CVC",
+            "T",
+            "C",
+        ]
+    elif dataset_name == "fx10_Fianl":
+        # Load the image
+        img = open_file(folder + "fx10_Fianl.mat")["fx10_Fianl"]
+
+        rgb_bands = (192, 134, 76)
+
+        gt = open_file(folder + "fx10_Fianl_gt.mat")["fx10_Fianl_gt"]
+        label_values = [
+
+            "Undefined",
+            "P100",
+            "C100",
+            "C20P80",
+            "C80P20",
+            "C65P35",
+            "C35P65",
+            "C50P50",
+        ]
+        ignored_labels = [0]
+    elif dataset_name == "fx17_Fianl":
+        # Load the image
+        img = open_file(folder + "fx17_Fianl.mat")["fx17_Fianl"]
+
+        rgb_bands = (192, 134, 76)
+
+        gt = open_file(folder + "fx17_Fianl_gt.mat")["fx17_Fianl_gt"]
+        label_values = [
+
+            "Undefined",
+            "P100",
+            "C100",
+            "C20P80",
+            "C80P20",
+            "C65P35",
+            "C35P65",
+            "C50P50",
+        ]
+        ignored_labels = [0]
+    elif dataset_name == "leather":
+        # Load the image
+        img = open_file(folder + "leather.mat")["leather"]
+        # img = open_file(folder + "leather.mat")
+
+        rgb_bands = (192, 134, 76)
+
+        gt = open_file(folder + "leather_gt.mat")["leather_gt"]
+        label_values = [
+            "Undefined",
+            "leather",
+            "bot",
+
+        ]
+        ignored_labels = [0]
+    elif dataset_name == "leatherbnad50_150":
+        # Load the image
+        img = open_file(folder + "leatherbnad50_150.mat")["leatherbnad50_150"]
+        # img = open_file(folder + "leather.mat")
+
+        rgb_bands = (50, 50, 50)
+
+        gt = open_file(folder + "leatherbnad50_150_gt.mat")["leatherbnad50_150_gt"]
+        label_values = [
+            "Undefined",
+            "leather",
+            "bot",
+
+        ]
+        ignored_labels = [0]
+    elif dataset_name == "leather2":
+        # Load the image
+        img = open_file(folder + "leather2.mat")["leather2"]
+        # img = open_file(folder + "leather.mat")
+
+        rgb_bands = (192, 134, 76)
+
+        gt = open_file(folder + "leather_gt2.mat")["leather_gt2"]
+        label_values = [
+            "Undefined",
+            "leather",
+            "bot",
+
+        ]
+
+        ignored_labels = [0]
+
     else:
         # Custom dataset
         (
