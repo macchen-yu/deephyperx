@@ -1,6 +1,7 @@
 *.pyc
 *.ipynb_checkpoints/
 *.mat
+*.npy
 ./VAL_patch10_10/*
 ./.idea/*
 ./checkpoints/*
